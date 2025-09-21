@@ -60,7 +60,7 @@ public interface IMatrix {
      *
      * @return Trace
      */
-    // Number getTrace();
+     Number getTrace();
 
     /**
      * @return rows
