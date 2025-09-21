@@ -1,0 +1,156 @@
+public class MatrixReal implements IMatrix {
+    private int[][] matrix;
+
+    public int[][] getMatrix() {
+        return matrix;
+    }
+
+    public void setMatrix(int[][] matrix) {
+        this.matrix = matrix;
+    }
+
+
+
+
+
+     public static void print(IMatrix matrix) {
+         int row = matrix.getRows();
+         int column = matrix.getColumns();
+
+         for (int i = 0; i < row; i++) {
+             System.out.print("[ ");
+             for (int j = 0; j < column; j++) {
+                 int numbers = (int) Math.round(matrix.get(i, j));
+                 System.out.print(numbers);
+                 if (j + 1 < column) System.out.print(" ");
+             }
+             System.out.println(" ]");
+         }
+         System.out.println();
+     }
+
+        @Override
+    public IMatrix times(IMatrix matrix) {
+        int row = getRows();
+        int column = getColumns();
+        int MRow = matrix.getRows();
+
+
+        int[][] result = new int[row][column];
+
+        if (column != MRow) {
+            throw new IllegalArgumentException("Stop your ass");
+        }
+
+        for (int i = 0; i < row; i++) {
+            for (int j = 0; j < MRow; j++) {
+                double sum = 0;
+                for (int k = 0; k < column; k++) {
+                    sum += (sum + get(i, k) * matrix.get(k, j));
+                }
+                result[i][j] = (int) Math.round(sum);
+            }
+        }
+        MatrixReal makaka = new MatrixReal();
+        makaka.setMatrix(result);
+        return makaka;
+    }
+
+
+    @Override
+    public IMatrix times(int scalar) {
+        int row = getRows();
+        int column = getColumns();
+
+        int[][] result = new int[row][column];
+        for (int i = 0; i < row; i++) {
+            for (int j = 0; j < column; j++) {
+                result[i][j] = (int) Math.round(get(i, j) * scalar);
+            }
+        }
+        MatrixReal makaka = new MatrixReal();
+        makaka.setMatrix(result);
+        return makaka;
+
+    }
+
+
+    @Override
+    public IMatrix add(IMatrix matrix) {
+        int row = getRows();
+        int column = getColumns();
+
+
+        int[][] result = new int[row][column];
+        for (int i = 0; i < row; i++) {
+            for (int j = 0; j < column; j++) {
+                result[i][j] += (int) Math.round(get(i, j) + matrix.get(i, j));
+            }
+        }
+        MatrixReal makaka = new MatrixReal();
+        makaka.setMatrix(result);
+        return makaka;
+    }
+
+    @Override
+    public IMatrix transpose() {
+        int row = getRows();
+        int column = getColumns();
+
+        int[][] result = new int[row][column];
+        for (int i=0; i< row;i++){
+            for (int j =0; j< column;j++){
+                result[i][j] = (int) get(j, i);
+            }
+        }
+
+
+
+        MatrixReal makaka = new MatrixReal();
+        makaka.setMatrix(result);
+        return makaka;
+    }
+
+    @Override
+    public boolean isSquare() {
+        int a = getRows();
+        int b = getColumns();
+
+        return (b == a);
+
+    }
+
+    @Override
+    public Number getTrace() {
+        int row = getRows();
+        int columns = getColumns();
+        int result = 0;
+
+        if (!isSquare()) {
+            throw new IllegalArgumentException("Stop your ass");
+        }
+
+
+        for (int i = 0; i < row; i++) {
+            for (int j = 0; j < columns; j++) {
+                result += (int) get(i, j);
+            }
+        }
+        return result;
+    }
+
+    @Override
+    public int getRows() {
+        return matrix.length;
+    }
+
+    @Override
+    public int getColumns() {
+        return matrix[0].length;
+    }
+
+    @Override
+    public double get(int n, int m) {
+        return matrix[n][m];
+    }
+}
